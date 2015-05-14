@@ -1,2 +1,2 @@
-source $DOTFILE_PATH/vimrc
+source $DOTFILE_PATH/$DOTFILE_VIMRC
 

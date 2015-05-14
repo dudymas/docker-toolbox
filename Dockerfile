@@ -10,7 +10,9 @@ RUN apk add zsh git
 
 RUN env git clone --depth=1 https://github.com/robbyrussell/oh-my-zsh $HOME/.zsh
 
-RUN apk add python go
+RUN apk add python go && mkdir /root/go
+
+RUN GOPATH=/root/go go get github.com/constabulary/gb
 
 # other apps to consider:
 # https://github.com/mksenzov/i.js
@@ -24,10 +26,12 @@ RUN apk add python go
 ENV DOTFILE_PATH=/root/dots
 ENV DOTFILE_VIMRC=vimrc
 ENV DOTFILE_ZSHRC=zshrc
+ENV ZSH_THEME=random
+ENV OVERRIDE_GOPATH=1
 
 RUN mkdir $DOTFILE_PATH && \
-    touch $DOTFILE_PATH/$DOTFILE_VIMRC && \
-    touch $DOTFILE_PATH/$DOTFILE_ZSHRC
+    touch /root/dots/vimrc && \
+    touch /root/dots/zshrc
 
 COPY zshrc /root/.zshrc
 COPY vimrc /root/.vimrc
