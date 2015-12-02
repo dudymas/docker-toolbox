@@ -5,9 +5,7 @@ ENV GOPATH=/root/go
 RUN \
     apk add --update openssh-client vim nodejs zsh git python go \
 && \
-    npm install -g wscat \
-&& \
-    env git clone --depth=1 https://github.com/robbyrussell/oh-my-zsh $HOME/.oh-my-zsh
+    env git clone --depth=1 https://github.com/robbyrussell/oh-my-zsh $HOME/.oh-my-zsh \
 && \
     mkdir $GOPATH && \
     go get github.com/constabulary/gb
@@ -22,11 +20,12 @@ RUN \
 # https://github.com/facebook/PathPicker
 
 ENV DOTFILE_PATH=/root/.dots \
-    DOTFILE_REPO=https://github.com/dudymas/dots \
+    DOTFILE_REPO=https://github.com/dudymas/dots.git \
     DOTFILE_VIMRC=vimrc \
     DOTFILE_ZSHRC=.zshrc \
-    ADD_PACKAGE_COMMAND="apk add" \
-    REM_PACKAGE_COMMAND="apk remove" \
+    PACKAGE_MANAGER=apk \
+    ADD_PACKAGE_COMMAND="add" \
+    REM_PACKAGE_COMMAND="del" \
     ZSH_THEME=random
 
 RUN git clone $DOTFILE_REPO $DOTFILE_PATH
