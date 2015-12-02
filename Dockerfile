@@ -1,18 +1,16 @@
 FROM alpine:latest
 
-RUN apk update
+ENV GOPATH=/root/go
 
-RUN apk add openssh-client vim nodejs
-
-RUN npm install -g wscat
-
-RUN apk add zsh git
-
-RUN env git clone --depth=1 https://github.com/robbyrussell/oh-my-zsh $HOME/.zsh
-
-RUN apk add python go && mkdir /root/go
-
-RUN GOPATH=/root/go go get github.com/constabulary/gb
+RUN \
+    apk add --update openssh-client vim nodejs zsh git python go \
+&& \
+    npm install -g wscat \
+&& \
+    env git clone --depth=1 https://github.com/robbyrussell/oh-my-zsh $HOME/.oh-my-zsh
+&& \
+    mkdir $GOPATH && \
+    go get github.com/constabulary/gb
 
 # other apps to consider:
 # https://github.com/mksenzov/i.js
@@ -23,17 +21,18 @@ RUN GOPATH=/root/go go get github.com/constabulary/gb
 # https://github.com/philovivero/distribution
 # https://github.com/facebook/PathPicker
 
-ENV DOTFILE_PATH=/root/dots
-ENV DOTFILE_VIMRC=vimrc
-ENV DOTFILE_ZSHRC=zshrc
-ENV ZSH_THEME=random
-ENV OVERRIDE_GOPATH=1
+ENV DOTFILE_PATH=/root/.dots \
+    DOTFILE_REPO=https://github.com/dudymas/dots \
+    DOTFILE_VIMRC=vimrc \
+    DOTFILE_ZSHRC=.zshrc \
+    ADD_PACKAGE_COMMAND="apk add" \
+    REM_PACKAGE_COMMAND="apk remove" \
+    ZSH_THEME=random
 
-RUN mkdir $DOTFILE_PATH && \
-    touch /root/dots/vimrc && \
-    touch /root/dots/zshrc
+RUN git clone $DOTFILE_REPO $DOTFILE_PATH
 
-COPY zshrc /root/.zshrc
-COPY vimrc /root/.vimrc
+COPY files /
+
+RUN /setup.sh
 
 CMD /bin/zsh

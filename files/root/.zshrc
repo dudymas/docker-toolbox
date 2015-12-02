@@ -1,0 +1,2 @@
+source $DOTFILE_PATH/$DOTFILE_ZSHRC
+
