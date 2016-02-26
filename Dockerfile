@@ -18,6 +18,10 @@ RUN \
 # https://github.com/srsudar/eg
 # https://github.com/philovivero/distribution
 # https://github.com/facebook/PathPicker
+# https://github.com/paul-nechifor/ohmu
+# https://github.com/orf/gping
+# https://github.com/emre/storm
+# https://github.com/jamesob/desk
 
 ENV DOTFILE_PATH=/root/.dots \
     DOTFILE_REPO=https://github.com/dudymas/dots.git \
